@@ -33,6 +33,7 @@ target_include_directories(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION ${socketcan-plus-plus_VERSION}
   SOVERSION ${socketcan-plus-plus_VERSION_MAJOR}
+  PUBLIC_HEADER "include/socketcan-plus-plus/socketcan-plus-plus.hpp"
 )
 
 #if(BUILD_TESTING)
@@ -44,12 +45,40 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 #  target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
 #endif()
 
+set(CMAKE_INSTALL_CMAKEDIR share/socketcan-plus-plus/cmake)
+
 install(DIRECTORY include/socketcan-plus-plus/
   DESTINATION include/${PROJECT_NAME}
 )
 
-install(TARGETS ${PROJECT_NAME}
-  DESTINATION lib
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT socketcan-plus-plusTargets
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+  PUBLIC_HEADER DESTINATION include
+)
+
+install(EXPORT socketcan-plus-plusTargets
+  FILE socketcan-plus-plusTargets.cmake
+  NAMESPACE SocketcanPlusPlus::
+  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(socketcan-plus-plusConfigVersion.cmake
+  COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/socketcan-plus-plusConfigVersion.cmake
+  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}
+)
+
+install(FILES socketcan-plus-plusConfig.cmake
+  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}
 )
 
 CONFIGURE_FILE(
