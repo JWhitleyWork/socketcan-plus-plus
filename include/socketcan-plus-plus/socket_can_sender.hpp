@@ -1,4 +1,4 @@
-// Copyright 2021-2022 the Autoware Foundation, Whitley Software Services
+// Copyright 2021-2022 the Autoware Foundation, U Power Robotics USA
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
